@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Wikipedia Instantly</title>
+</head>
+<body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js" ></script>
+
+<h1> Search In Wikipedia</h1>
+
+<input type="text" id="search" placeholder="Enter the Term"> </input>
+
+<div id="result"></div>
+
+<script type="text/javascript">
+	
+	$("#search").keyup(function(e){
+		var ans = $("#search").val();
+		$.getJSON("http://en.wikipedia.org/w/api.php?callback=?",
+		{
+			srsearch : ans,
+			action : "query",
+			list : "search",
+			format : "json"
+		},
+
+		function(data){
+			$("#result").empty();
+			$("#result").append("<h1> Results for <br>" + ans + "</br></p>");
+			$.each(data.query.search, function(n,item){
+				$("#result").append("<div> <a href='http://en.wikipedia.org/wiki/" + encodeURIComponent( item.title) + "'>" + item.title + "</a><br>" + item.snippet + "<br><br></div>");
+			});
+		});
+	});
+
+</script>
+
+
+
+</body>
+</html>
